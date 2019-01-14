@@ -3,6 +3,7 @@ package com.marain.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,7 +18,9 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Iterator;
 
-public class MyRain extends ApplicationAdapter {
+public class GameScreen implements Screen {
+
+    final Drop game;
     OrthographicCamera camera;
 	SpriteBatch batch;
 	Texture dropImage;
@@ -28,9 +31,12 @@ public class MyRain extends ApplicationAdapter {
     Vector3 touchPos;
     Array<Rectangle> raindrops;
     long lastDropTime;
+    int dropsCatchered;
 	
-	@Override
-	public void create () {
+
+	public GameScreen (final Drop gam) {
+	    this.game = gam;
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
@@ -74,7 +80,7 @@ public class MyRain extends ApplicationAdapter {
     }
 
 	@Override
-	public void render () {
+	public void render (float delta) {
 	    // Очищаем экран.
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -84,19 +90,21 @@ public class MyRain extends ApplicationAdapter {
 		// Обновляем камеру.
 		camera.update();
         // использовать система координат камеры
-		batch.setProjectionMatrix(camera.combined);
+        game.batch.setProjectionMatrix(camera.combined);
 
         // Рисует серию изображений.
-		batch.begin();
+        game.batch.begin();
 
-		batch.draw(bucketImage, bucket.x, bucket.y); // отображаем ведро
+        game.font.draw(game.batch, "Drops Collected: " + dropsCatchered, 0, 480);
+
+        game.batch.draw(bucketImage, bucket.x, bucket.y); // отображаем ведро
 
 
         for (Rectangle raindrop: raindrops) {
-            batch.draw(dropImage, raindrop.x, raindrop.y); // отображает капли
+            game.batch.draw(dropImage, raindrop.x, raindrop.y); // отображает капли
         }
 
-		batch.end();
+        game.batch.end();
 
 
 		// Заправшиваем координаты нажатия мыши / или пальца.
@@ -125,21 +133,43 @@ public class MyRain extends ApplicationAdapter {
 
             // Проверяем пересекает ли капля ведро
             if (raindrop.overlaps(bucket)) {
+                dropsCatchered++; // увеличиваем счетчик собранных капель
                 dropSound.play();
                 iter.remove();
             }
         }
 	}
-	
-	@Override
-	public void dispose () {
-		super.dispose();
 
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+	public void dispose () {
 		dropImage.dispose();
 		bucketImage.dispose();
 		dropSound.dispose();
 		rainMusic.dispose();
-
-		batch.dispose();
 	}
+
+    @Override
+    public void show() {
+        rainMusic.play();
+    }
 }

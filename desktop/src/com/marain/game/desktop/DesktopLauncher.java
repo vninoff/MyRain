@@ -2,7 +2,8 @@ package com.marain.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.marain.game.MyRain;
+import com.marain.game.Drop;
+import com.marain.game.GameScreen;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -10,6 +11,6 @@ public class DesktopLauncher {
 		config.title = "Rain";
 		config.width = 800;
 		config.height = 480;
-		new LwjglApplication(new MyRain(), config);
+		new LwjglApplication(new Drop(), config);
 	}
 }
