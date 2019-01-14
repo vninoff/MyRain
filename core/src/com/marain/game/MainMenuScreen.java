@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 
+
+// Переделали классы, добавили главное меню.
 public class MainMenuScreen implements Screen{
 
     final Drop game;
