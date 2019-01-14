@@ -44,25 +44,25 @@ public class MyRain extends ApplicationAdapter {
         dropSound = Gdx.audio.newSound(Gdx.files.internal("waterdrop.wav"));
         rainMusic = Gdx.audio.newMusic(Gdx.files.internal("undertreeinrain.mp3"));
 
-        // Запускаем и зацикливаем фоновую музыку
+        // Запускаем и зацикливаем фоновую музыку.
         rainMusic.setLooping(true);
         rainMusic.play();
 
-        // Создаем прямоугольник для Ведра
+        // Создаем прямоугольник для Ведра.
         bucket = new Rectangle();
         bucket.x = 800 / 2 - 64 / 2;
         bucket.y = 20;
         bucket.width = 64;
         bucket.height = 64;
 
-        // Создаем экземпляр массива капель и порождаем первую каплю
+        // Создаем экземпляр массива капель и порождаем первую каплю.
         raindrops = new Array<Rectangle>();
         spawnRaindrop();
 
 
 	}
 
-	// Вспомогательная функция для отображения капли в верхней позиции
+	// Вспомогательная функция для отображения капли в верхней позиции.
 	private void spawnRaindrop() {
 	    Rectangle raindrop = new Rectangle();
 	    raindrop.x = MathUtils.random(0, 800-64);
@@ -79,6 +79,8 @@ public class MyRain extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
+
 		// Обновляем камеру.
 		camera.update();
         // использовать система координат камеры
@@ -88,6 +90,7 @@ public class MyRain extends ApplicationAdapter {
 		batch.begin();
 
 		batch.draw(bucketImage, bucket.x, bucket.y); // отображаем ведро
+
 
         for (Rectangle raindrop: raindrops) {
             batch.draw(dropImage, raindrop.x, raindrop.y); // отображает капли
